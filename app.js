@@ -1,6 +1,7 @@
 const express        = require('express'),
       session        = require('express-session'),
       app            = express(),
+      dotenv         = require('dotenv'),
       bodyParser     = require('body-parser'),
       methodOverride = require('method-override'),
       sql            = require('mysql'),
@@ -15,6 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
+dotenv.config();
 
 // DB Connection
 var connection = sql.createConnection({
@@ -25,6 +27,7 @@ var connection = sql.createConnection({
  
 connection.connect(function(err) {
   if (err) {
+    console.log(process.env.DB_SERVER + " " + process.env.DB_USER + " " + process.env.DB_PASS);
     console.error('Attempting DB Connection: [ERR]\n\n ' + err.stack);
     return;
   }
