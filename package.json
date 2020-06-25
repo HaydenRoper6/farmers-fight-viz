@@ -1,0 +1,22 @@
+{
+  "name": "farmers-fight-viz",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cmskim/farmers-fight-viz.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cmskim/farmers-fight-viz/issues"
+  },
+  "homepage": "https://github.com/cmskim/farmers-fight-viz#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
