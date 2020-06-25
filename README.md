@@ -26,4 +26,4 @@ A repository for the farmers-fight Visa Inter hackathon team.
   > git push origin ft-cole-newFeature
 - open a PR at https://github.com/cmskim/farmers-fight-viz/compare  
   > base branch: develop
-  > compare your banch
+  > compare your branch
