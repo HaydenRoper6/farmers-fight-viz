@@ -7,20 +7,20 @@ A repository for the farmers-fight Visa Inter hackathon team.
 
 - Each time you work on the project / do a new feature: 
 - Checkout the develop branch
-  > git checkout develop
+  > git checkout develop  
   > git pull origin develop
   
 - Create a feature branch to work on
   > git checkout -b ft-cole-newFeature develop
   
-- Update your packages (needs to be done everytime you pull code, as new packages code have been added to the project)
+- Update your packages (needs to be done everytime you pull code, as new packages could have been added to the project)
   > npm i
 
 - Run the app
   > node app.js
   
 - You should see the console output:
-  > App Listening: [OK]
+  > App Listening: [OK]  
   > Attempting DB Connection: [OK]
 
   
@@ -31,10 +31,10 @@ A repository for the farmers-fight Visa Inter hackathon team.
 
 # Commiting and Merging Changes
 - add and git commit your files to your local branch
-  > git add .
-  > git commit -m "Add feature items."
-  > git push origin ft-cole-newFeature
+  > git add .  
+  > git commit -m "Add feature items."  
+  > git push origin ft-cole-newFeature  
 - open a PR at https://github.com/cmskim/farmers-fight-viz/compare  
-  > base branch: develop
-  > compare your branch
-  > submit PR
+  > base branch: develop  
+  > compare: your branch  
+  > submit PR  
