@@ -1,16 +1,25 @@
 const express = require('express');
-const request = request('request');
 const app = express();
 const port = 8080;
+const rp = require('request-promise');
+const bodyParser = require('body-parser')
+var fs = require('fs');
 
+var credentials = {
+  userId: "put your user id here",
+  password: "put your password here",
+  cert: "put the path to the certificate file here",
+  key: "put the path to the private key here",
+  ca: "put the path to the client certificate file here"
+}
 
-app.get('/', (req, res) => res.send('Hello World!'));
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 
 headers = {};
-headers['Authorization'] = 'Basic ' + new Buffer('K98T31PFE8R2BXBR0ZL221_enTQYwBBmsGO-2CBuQQoHl8abA' + ':' + 'w1tlLQDfNq9KXGr65').toString('base64');
+headers['Authorization'] = 'Basic ' + new Buffer(credentials.userId + ':' + credentials.password).toString('base64');
 headers['Accept'] = 'application/json';
 
-body =  
+bodyInfo =  
 {
 "requestHeader": {
 "messageDateTime": "2020-06-23T17:50:05.327Z",
@@ -62,15 +71,14 @@ body =
 
 var measurementRequest = {
     method: 'POST',
-    uri: 'https//sandbox.api.visa.com/merchantmeasurement/v1/merchantbenchmark',
-    key: './resources/key.pem',
-    cert: './resources/cert.pem',
-    ca: './resources/cert.pem',
+    uri: 'https://sandbox.api.visa.com/merchantmeasurement/v1/merchantbenchmark',
+    key: fs.readFileSync(credentials.key),
+    cert: fs.readFileSync(credentials.cert),
+    ca: fs.readFileSync(credentials.ca),
     headers: headers,
-    body: body
+    body: bodyInfo,
+    json: true
 };
-
-const bodyParser = require('body-parser')
 
 app.use(bodyParser.urlencoded({
   extended: true
@@ -78,16 +86,15 @@ app.use(bodyParser.urlencoded({
 
 app.use(bodyParser.json())
 
-request(measurementRequest.uri, function (error, response, body) {
-  
-});
 
 app.post('/merchantMeasurement', (req, res) => {
-
-    console.log(measurementRequest.body)
-
-    res.send(200, measurementRequest.body);
+    rp(measurementRequest).then(body => {
+      console.log(body)
+      res.send(200, body)
+    }).catch (err => {
+      console.log(err)
+      res.send(500, err)
+    })
 })
 
-
-app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
+app.listen(port, () => console.log(`Listening at http://localhost:${port}`));
