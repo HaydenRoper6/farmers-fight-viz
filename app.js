@@ -27,7 +27,6 @@ var connection = sql.createConnection({
  
 connection.connect(function(err) {
   if (err) {
-    console.log(process.env.DB_SERVER + " " + process.env.DB_USER + " " + process.env.DB_PASS);
     console.error('Attempting DB Connection: [ERR]\n\n ' + err.stack);
     return;
   }
