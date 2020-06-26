@@ -3,11 +3,23 @@ var express    = require("express"),
     flash      = require('express-flash'),
     sql        = require('mysql'),
     request    = require('request'),
-    path       = require('path');
+	path       = require('path');
+	rp         = require('request-promise');
+	fs         = require('fs');
+	
+var credentials = {
+	userId: "K98T31PFE8R2BXBR0ZL221_enTQYwBBmsGO-2CBuQQoHl8abA",
+	password: "w1tlLQDfNq9KXGr65",
+	cert: "./resources/cert.pem",
+	key: "./resources/key.pem",
+	ca: "./resources/DigiCertGlobalRootCA.crt"
+}
 
-router.get('/merchantMeasurement', (req, res) => {
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
+
+router.post('/merchantMeasurement', (req, res) => {
 	headers = {};
-	headers['Authorization'] = 'Basic ' + new Buffer('K98T31PFE8R2BXBR0ZL221_enTQYwBBmsGO-2CBuQQoHl8abA' + ':' + 'w1tlLQDfNq9KXGr65').toString('base64');
+	headers['Authorization'] = 'Basic ' + new Buffer(credentials.userId + ':' + credentials.password).toString('base64');
 	headers['Accept'] = 'application/json';
 
 	body =  
@@ -60,24 +72,24 @@ router.get('/merchantMeasurement', (req, res) => {
 	};
 	
 	var measurementRequest = {
-	    method: 'POST',
-	    uri: 'https//sandbox.api.visa.com/merchantmeasurement/v1/merchantbenchmark',
-	    key: './resources/key.pem',
-	    cert: './resources/cert.pem',
-	    ca: './resources/cert.pem',
-	    headers: headers,
-	    body: body
+		method: 'POST',
+		uri: 'https://sandbox.api.visa.com/merchantmeasurement/v1/merchantbenchmark',
+		key: fs.readFileSync(credentials.key),
+		cert: fs.readFileSync(credentials.cert),
+		ca: fs.readFileSync(credentials.ca),
+		headers: headers,
+		body: body,
+		json: true
 	};
 
-	request(measurementRequest.uri, function (error, response, body) {
-		if (!error){
-			console.log(response);
-			res.status(200).send(body);
-		} else {
-			console.log(error);
-			res.status(400).send(error);
-		}
-	});
+	rp(measurementRequest).then(body => {
+		console.log(body.response.responseData[0])
+		res.send(200, body)
+
+	  }).catch (err => {
+		console.log(err)
+		res.send(500, err)
+	  })
 });
 
 module.exports = router;
