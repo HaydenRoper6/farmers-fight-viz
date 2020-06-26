@@ -10,6 +10,10 @@ router.get('/', (req, res) => {
 	res.render('index', { team: team })
 });
 
+router.get('/map', (req, res) => {
+	res.render('map')
+});
+
 /*router.get("/terms-and-conditions", function(req, res){
 	res.render("terms-and-conditions");
 });
