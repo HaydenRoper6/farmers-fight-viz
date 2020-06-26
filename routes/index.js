@@ -5,9 +5,7 @@ var express    = require("express"),
     path       = require('path');
 
 router.get('/', (req, res) => {
-	var team = {};
-	team['name'] = 'Farmers Fight';
-	res.render('index', { team: team })
+	res.render('index')
 });
 
 /*router.get("/terms-and-conditions", function(req, res){
