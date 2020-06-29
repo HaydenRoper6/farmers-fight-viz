@@ -1,18 +1,19 @@
 var express    = require("express"),
     router     = express.Router(),
-    flash      = require('express-flash'),
     sql        = require('mysql'),
-    request    = require('request'),
-	path       = require('path');
 	rp         = require('request-promise');
 	fs         = require('fs');
-	
+	dotenv     = require('dotenv'),
+
+dotenv.config();	
 var credentials = {
-	userId: "K98T31PFE8R2BXBR0ZL221_enTQYwBBmsGO-2CBuQQoHl8abA",
-	password: "w1tlLQDfNq9KXGr65",
-	cert: "./resources/cert.pem",
-	key: "./resources/key.pem",
-	ca: "./resources/DigiCertGlobalRootCA.crt"
+	userId: process.env.FF_MMAPI_USER,
+	password: process.env.FF_MMAPI_PASS,
+
+	//Download cert, key, and ca file from google drive
+	cert: "Path to CERT file",
+	key: "Path to KEY file",
+	ca: "Path to CA file"
 }
 
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
