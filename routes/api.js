@@ -11,9 +11,9 @@ var credentials = {
 	password: process.env.FF_MMAPI_PASS,
 
 	//Download cert, key, and ca file from google drive
-	cert: "Path to CERT file",
-	key: "Path to KEY file",
-	ca: "Path to CA file"
+	cert: "./cert.pem",
+	key: "./key.pem",
+	ca: "./DigiCertGlobalRootCA.crt"
 }
 
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
