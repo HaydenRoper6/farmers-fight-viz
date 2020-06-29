@@ -1,26 +1,13 @@
 var express    = require("express"),
     router     = express.Router(),
+    flash      = require('express-flash'),
     sql        = require('mysql'),
-	rp         = require('request-promise');
-	fs         = require('fs');
-	dotenv     = require('dotenv'),
+    request    = require('request'),
+    path       = require('path');
 
-dotenv.config();	
-var credentials = {
-	userId: process.env.FF_MMAPI_USER,
-	password: process.env.FF_MMAPI_PASS,
-
-	//Download cert, key, and ca file from google drive
-	cert: "./cert.pem",
-	key: "./key.pem",
-	ca: "./DigiCertGlobalRootCA.crt"
-}
-
-process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
-
-router.post('/merchantMeasurement', (req, res) => {
+router.get('/merchantMeasurement', (req, res) => {
 	headers = {};
-	headers['Authorization'] = 'Basic ' + new Buffer(credentials.userId + ':' + credentials.password).toString('base64');
+	headers['Authorization'] = 'Basic ' + new Buffer('K98T31PFE8R2BXBR0ZL221_enTQYwBBmsGO-2CBuQQoHl8abA' + ':' + 'w1tlLQDfNq9KXGr65').toString('base64');
 	headers['Accept'] = 'application/json';
 
 	body =  
@@ -73,24 +60,24 @@ router.post('/merchantMeasurement', (req, res) => {
 	};
 	
 	var measurementRequest = {
-		method: 'POST',
-		uri: 'https://sandbox.api.visa.com/merchantmeasurement/v1/merchantbenchmark',
-		key: fs.readFileSync(credentials.key),
-		cert: fs.readFileSync(credentials.cert),
-		ca: fs.readFileSync(credentials.ca),
-		headers: headers,
-		body: body,
-		json: true
+	    method: 'POST',
+	    uri: 'https//sandbox.api.visa.com/merchantmeasurement/v1/merchantbenchmark',
+	    key: './resources/key.pem',
+	    cert: './resources/cert.pem',
+	    ca: './resources/cert.pem',
+	    headers: headers,
+	    body: body
 	};
 
-	rp(measurementRequest).then(body => {
-		console.log(body.response.responseData[0])
-		res.send(200, body)
-
-	  }).catch (err => {
-		console.log(err)
-		res.send(500, err)
-	  })
+	request(measurementRequest.uri, function (error, response, body) {
+		if (!error){
+			console.log(response);
+			res.status(200).send(body);
+		} else {
+			console.log(error);
+			res.status(400).send(error);
+		}
+	});
 });
 
 module.exports = router;
