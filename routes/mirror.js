@@ -82,17 +82,21 @@ for each industry
 for each state
 
   if min/max is more than +-average/2, go through data and check recent months to see if sharp change in recent month, if sharp decline do projected -averagemom/yoy, if sharp increase do projected +averagemom/yoy
-  projected mom = average mom +- average yoy/2 (averageyoy if sharp increase or decline)
-  projected yoy = average yoy +- average mom/2 (averagemom if sharp increase or decline)
-
-  negatively affected - negatives for either AND those negatives are greater than the usual gain/loss during this month throughout your history
-  Calculate projected
+  projected mom = average mom (current month) +- average yoy/2 (averageyoy if sharp increase or decline)
+  projected yoy = average yoy (current month) +- .average mom/2 (averagemom if sharp increase or decline)
 
 
-  look at average yoy for current month
 
+  min(length-3), max(length-2), avg(length-1)
+  REAL projected mom = average the past (2-3) mom of the current month +- avg of past 6 months/2
+  REAL projected yoy = average yoy of past (2-3) of current month +- avg of sales yoy of past 6 months/2
+
+
+  push mcg, state, pyoy-max/min,pmom-max/min into table
 
 */
 //use projected growth vs current data to update industry health
-
+//if inside min/max, level 3 ->push into table
+//if below min, is it more than 2(max-min) below? yes, give it a 1, no give it a 2
+//if above max, is it more than 2(max-min) above? yes, give it a 5, no give it a 4
 //color code map based on industry health table --cole
